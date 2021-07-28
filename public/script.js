@@ -18,8 +18,9 @@ showChat.addEventListener('click', () => {
 });
 
 const myPeer = new Peer(undefined, {
-  host: '/',
-  port: '3001',
+  host: 'localhost',
+  port: 9000,
+  path: '/myapp',
 });
 const myVideo = document.createElement('video');
 
