@@ -5,6 +5,7 @@ const io = require('socket.io')(server);
 const {v4: uuidV4} = require('uuid');
 
 app.set('view engine', 'ejs');
+
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
@@ -19,6 +20,9 @@ io.on('connection', (socket) => {
   socket.on('join-room', (roomId, userId) => {
     socket.join(roomId);
     socket.broadcast.to(roomId).emit('user-connected', userId);
+    socket.on('message', (message) => {
+      io.to(roomId).emit('createMessage', message, userId);
+    });
     socket.on('disconnect', () => {
       socket.broadcast.to(roomId).emit('user-disconnected', userId);
     });
